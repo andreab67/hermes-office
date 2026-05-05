@@ -17,6 +17,7 @@
  *   HERMES_API_URL        Hermes HTTP API base URL   (default: http://localhost:8642)
  *   HERMES_API_KEY        Bearer token for Hermes     (default: empty)
  *   HERMES_ADAPTER_PORT   WebSocket port              (default: 18789)
+ *   HERMES_ADAPTER_HOST   WebSocket bind address      (default: 127.0.0.1)
  *   HERMES_MODEL          Model identifier            (default: hermes)
  *   HERMES_AGENT_NAME     Display name in Claw3D UI   (default: Hermes)
  */
@@ -1257,8 +1258,9 @@ function startAdapter() {
     });
   });
 
-  httpServer.listen(ADAPTER_PORT, "127.0.0.1", () => {
-    console.log(`\n[hermes-adapter] ✓ Listening on ws://localhost:${ADAPTER_PORT}`);
+  const ADAPTER_HOST = process.env.HERMES_ADAPTER_HOST || "127.0.0.1";
+  httpServer.listen(ADAPTER_PORT, ADAPTER_HOST, () => {
+    console.log(`\n[hermes-adapter] ✓ Listening on ws://${ADAPTER_HOST}:${ADAPTER_PORT}`);
     console.log(`[hermes-adapter] ✓ Forwarding to Hermes API at ${HERMES_API_URL}`);
     console.log(`[hermes-adapter] ✓ Model: ${HERMES_MODEL}`);
     console.log(`[hermes-adapter] ✓ Multi-agent orchestration: ENABLED`);
