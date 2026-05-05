@@ -171,7 +171,12 @@ const resolveDefaultGatewayProfile = (
       return { url: DEFAULT_CUSTOM_RUNTIME_URL, token: "" };
     case "demo":
     case "hermes":
-      return { url: "ws://localhost:18789", token: "" };
+      // Honor NEXT_PUBLIC_GATEWAY_URL for the hermes/demo default the same
+      // way openclaw does — DEFAULT_UPSTREAM_GATEWAY_URL already wraps the
+      // env var with a localhost fallback, so single-host installs are
+      // unchanged but split-host (browser ≠ adapter) deployments work
+      // without a post-build sed of the .next bundle.
+      return { url: DEFAULT_UPSTREAM_GATEWAY_URL, token: "" };
     case "openclaw":
     default:
       return {
